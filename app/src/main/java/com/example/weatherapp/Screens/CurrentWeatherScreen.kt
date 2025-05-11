@@ -79,7 +79,8 @@ fun CurrentWeatherScreen(weatherData: WeatherCurrent, location: String, modifier
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Card(modifier = Modifier.weight(1f).padding(horizontal = 5.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f))) {
-                Column(modifier = Modifier.padding(5.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 8.dp).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         "UV index",
                         fontSize = 18.sp
@@ -89,7 +90,8 @@ fun CurrentWeatherScreen(weatherData: WeatherCurrent, location: String, modifier
             }
             Card(modifier = Modifier.weight(1f).padding(horizontal = 5.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f))) {
-                Column(modifier = Modifier.padding(5.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 8.dp).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         "Wind speed",
                         fontSize = 18.sp
@@ -102,23 +104,48 @@ fun CurrentWeatherScreen(weatherData: WeatherCurrent, location: String, modifier
                         Text(text = "${weatherData.windSpeed} km/h",
                             modifier = Modifier.padding(start = 5.dp))
                     }
-
                 }
             }
             Card(modifier = Modifier.weight(1f).padding(horizontal = 5.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f))) {
-                Column(modifier = Modifier.padding(5.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 8.dp).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         "Precipitation",
                         fontSize = 18.sp
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(precipitationType)
-                        Text("${weatherData.precipitationProbabilityPercent}",
+                        Text("${weatherData.precipitationProbabilityPercent} %",
                             modifier = Modifier.padding(start = 5.dp)
                         )
                     }
 
+                }
+            }
+        }
+
+        Row {
+            Card(modifier = Modifier.weight(1f).padding(horizontal = 5.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f))) {
+                Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 8.dp).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        "Air Pressure",
+                        fontSize = 18.sp
+                    )
+                    Text(text = "${weatherData.airPressure} hPa")
+                }
+            }
+            Card(modifier = Modifier.weight(1f).padding(horizontal = 5.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f))) {
+                Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 8.dp).fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        "Visibility",
+                        fontSize = 18.sp
+                    )
+                    Text(text = "${weatherData.visibility} km")
                 }
             }
         }

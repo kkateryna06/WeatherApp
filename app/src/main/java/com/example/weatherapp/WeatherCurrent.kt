@@ -11,6 +11,8 @@ data class WeatherCurrent(
     val thunderstormProbability: Int,
     val windDirection: String,
     val windSpeed: Int,
+    val airPressure: Double,
+    val visibility: Int,
     val weatherIconSource: String
 )
 
@@ -25,5 +27,8 @@ val dummyCurrentWeather = WeatherCurrent(
     thunderstormProbability = 0,
     windDirection = "WEST_NORTHWEST",
     windSpeed = 19,
+    airPressure = 1007.99,
+    visibility = 16,
     weatherIconSource = "https://maps.gstatic.com/weather/v1/party_cloudy"
 )
+
