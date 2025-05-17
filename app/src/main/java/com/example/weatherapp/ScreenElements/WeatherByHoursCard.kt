@@ -17,14 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.weatherapp.HourlyForecast
-import com.example.weatherapp.dummyHourlyForecastList
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.weatherapp.MainViewModel
+import com.example.weatherapp.R
+import com.example.weatherapp.data.ForecastHours
+import com.example.weatherapp.data.HourlyForecast
+import com.example.weatherapp.data.HourlyForecastData
 
 @Composable
-fun WeatherByHoursCard(weatherForecast: List<HourlyForecast> = dummyHourlyForecastList) {
+fun WeatherByHoursCard(weatherForecast: HourlyForecastData) {
     Card(modifier = Modifier.padding(vertical = 40.dp)) {
         LazyRow(modifier = Modifier.weight(1f)) {
-            items(weatherForecast) {
+            items(weatherForecast.forecastHours) {
                 item ->
                 WeatherByHoursItem(item)
             }
@@ -33,21 +37,22 @@ fun WeatherByHoursCard(weatherForecast: List<HourlyForecast> = dummyHourlyForeca
 }
 
 @Composable
-fun WeatherByHoursItem(item: HourlyForecast) {
+fun WeatherByHoursItem(item: ForecastHours) {
     Column(modifier = Modifier.padding(horizontal = 7.dp, vertical = 10.dp).fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "${item.hours}:00")
+        Text(text = "${item.displayDateTime.hours}:00")
         Spacer(modifier = Modifier.height(10.dp))
-        Image(painter = painterResource(item.weatherIconSource), contentDescription = null)
+        Image(painter = painterResource(R.drawable.ic_mostly_cloudy), contentDescription = null)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "${item.temperature}")
+        Text(text = "${item.temperature.degrees}")
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun WeatherByHoursCardPrev() {
-    WeatherByHoursCard()
+//    val viewModel: MainViewModel = viewModel()
+//    WeatherByHoursCard(viewModel.dummyHourlyForecastList)
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,12 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.Screens.windIconByDirection
-import com.example.weatherapp.WeatherCurrent
-import com.example.weatherapp.dummyCurrentWeather
+import com.example.weatherapp.data.CurrentWeatherData
 
 @Composable
-fun CurrentWeatherInfo(weatherData: WeatherCurrent) {
-    val precipitationType = weatherData.precipitationType.lowercase().replaceFirstChar { it.uppercaseChar() }
+fun CurrentWeatherInfo(weatherData: CurrentWeatherData) {
+    val precipitationType = weatherData.precipitation.probability.type.lowercase().replaceFirstChar { it.uppercaseChar() }
 
     Column(
 
@@ -82,13 +80,13 @@ fun CurrentWeatherInfo(weatherData: WeatherCurrent) {
                         Icon(
                             painter = painterResource(
                                 windIconByDirection(
-                                    weatherData.windDirection
+                                    weatherData.wind.direction.cardinal
                                 )
                             ),
                             contentDescription = null
                         )
                         Text(
-                            text = "${weatherData.windSpeed} km/h",
+                            text = "${weatherData.wind.speed.value} km/h",
                             modifier = Modifier.padding(start = 5.dp)
                         )
                     }
@@ -117,7 +115,7 @@ fun CurrentWeatherInfo(weatherData: WeatherCurrent) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(precipitationType)
                         Text(
-                            "${weatherData.precipitationProbabilityPercent} %",
+                            "${weatherData.precipitation.probability.percent} %",
                             modifier = Modifier.padding(start = 5.dp)
                         )
                     }
@@ -147,7 +145,7 @@ fun CurrentWeatherInfo(weatherData: WeatherCurrent) {
                         "Air Pressure",
                         fontSize = 18.sp
                     )
-                    Text(text = "${weatherData.airPressure} hPa")
+                    Text(text = "${weatherData.airPressure.meanSeaLevelMillibars} hPa")
                 }
             }
             Card(
@@ -170,7 +168,7 @@ fun CurrentWeatherInfo(weatherData: WeatherCurrent) {
                         "Visibility",
                         fontSize = 18.sp
                     )
-                    Text(text = "${weatherData.visibility} km")
+                    Text(text = "${weatherData.visibility.distance} km")
                 }
             }
         }
@@ -180,5 +178,5 @@ fun CurrentWeatherInfo(weatherData: WeatherCurrent) {
 @Preview(showBackground = true)
 @Composable
 fun CurrentWeatherInfoPrev() {
-    CurrentWeatherInfo(dummyCurrentWeather)
+//    CurrentWeatherInfo(dummyCurrentWeather)
 }

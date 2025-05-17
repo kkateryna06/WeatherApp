@@ -1,7 +1,5 @@
 package com.example.weatherapp.Screens
 
-import android.text.format.DateFormat
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
@@ -29,13 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.AppTheme
 import com.example.weatherapp.R
-import com.example.weatherapp.WeatherCurrent
-import com.example.weatherapp.dummyCurrentWeather
+import com.example.weatherapp.data.WeatherCurrent
 import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -194,11 +187,11 @@ fun windIconByDirection(direction: String): Int {
     return icon
 }
 
-@Preview(showBackground = true)
-@Composable
-fun CurrentWeatherScreenPrev() {
-    AppTheme {
-        CurrentWeatherScreen(weatherData = dummyCurrentWeather, location = "Wroclaw, Poland",
-            modifier = Modifier.background(color = MaterialTheme.colorScheme.primaryContainer))
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun CurrentWeatherScreenPrev() {
+//    AppTheme {
+//        CurrentWeatherScreen(weatherData = dummyCurrentWeather, location = "Wroclaw, Poland",
+//            modifier = Modifier.background(color = MaterialTheme.colorScheme.primaryContainer))
+//    }
+//}
