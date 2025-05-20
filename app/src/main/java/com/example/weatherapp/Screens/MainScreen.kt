@@ -1,9 +1,6 @@
 package com.example.weatherapp.Screens
 
 import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,24 +16,22 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.compose.AppTheme
 import com.example.weatherapp.MainViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.weatherapp.R
+import coil3.compose.AsyncImage
 import com.example.weatherapp.ScreenElements.CurrentWeatherInfo
 import com.example.weatherapp.ScreenElements.PagerIndicator
 import com.example.weatherapp.ScreenElements.WeatherByHoursCard
@@ -45,15 +40,14 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel
 ) {
-    val currentWeather by viewModel.currentWeather.observeAsState()
-    val weeklyForecast by viewModel.weeklyWeather.observeAsState()
-    val hourlyForecast by viewModel.hourlyForecast.observeAsState()
+    val currentWeather by viewModel.currentWeather.collectAsState()
+    val weeklyForecast by viewModel.weeklyWeather.collectAsState()
+    val hourlyForecast by viewModel.hourlyForecast.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.fetchWeather()
@@ -101,7 +95,8 @@ fun MainScreen(
                     )
                 }
             }
-            Row(verticalAlignment = Alignment.Bottom) {
+            Row(verticalAlignment = Alignment.Bottom,
+                modifier = Modifier.padding(start = 10.dp)) {
                 Text(
                     text = "${currentWeather?.temperature?.degrees}°",
                     fontSize = 60.sp,
@@ -113,14 +108,13 @@ fun MainScreen(
                     modifier = Modifier.padding(start = 15.dp, bottom = 10.dp)
                 )
             }
-            Image(
-                painter = painterResource(R.drawable.party_cloudy), contentDescription = null,
+            AsyncImage(
+                model = "${currentWeather!!.weatherCondition.iconBaseUri}.svg", contentDescription = null,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(horizontal = 30.dp)
             )
-
             Column(
                 modifier = Modifier.weight(0.5f),
                 verticalArrangement = Arrangement.Center
@@ -141,7 +135,8 @@ fun MainScreen(
                         }
                     }
                     Box(
-                        modifier = Modifier.align(alignment = Alignment.BottomCenter)
+                        modifier = Modifier
+                            .align(alignment = Alignment.BottomCenter)
                             .padding(horizontal = 60.dp)
                     ) {
                         PagerIndicator(pageNumber.value)
@@ -156,7 +151,5 @@ fun MainScreen(
 @Composable
 fun MainWeatherScreenPrev() {
     AppTheme {
-        MainScreen(
-            modifier = Modifier.background(color = MaterialTheme.colorScheme.primaryContainer))
     }
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.Screens.windIconByDirection
+import com.example.weatherapp.R
 import com.example.weatherapp.data.CurrentWeatherData
 
 @Composable
@@ -174,6 +174,29 @@ fun CurrentWeatherInfo(weatherData: CurrentWeatherData) {
         }
     }
 }
+
+
+fun windIconByDirection(direction: String): Int {
+    var windDirection = direction
+    if (direction.contains('_')) {
+        windDirection = direction.split('_')[0]
+    }
+
+    val icon = when (windDirection) {
+        "NORTH" -> R.drawable.ic_north
+        "NORTHEAST" -> R.drawable.ic_north_east
+        "NORTHWEST" -> R.drawable.ic_north_west
+        "SOUTH" -> R.drawable.ic_south
+        "SOUTHWEST" -> R.drawable.ic_south_west
+        "SOUTHEAST" -> R.drawable.ic_south_east
+        "EAST" -> R.drawable.ic_east
+        "WEST" -> R.drawable.ic_west
+
+        else -> R.drawable.ic_error
+    }
+    return icon
+}
+
 
 @Preview(showBackground = true)
 @Composable

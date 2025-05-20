@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
 import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.R
 import com.example.weatherapp.data.ForecastDays
@@ -44,8 +46,11 @@ fun WeatherCardRow(weather: ForecastDays, index: Int) {
     Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp, vertical = 5.dp)
         .clickable {  },
         verticalAlignment = Alignment.CenterVertically) {
-        Image(painter = painterResource(R.drawable.ic_mostly_cloudy), contentDescription = null,
-            modifier = Modifier.padding(end = 10.dp))
+        AsyncImage(
+            model = "${weather.daytimeForecast.weatherCondition.iconBaseUri}.svg",
+            contentDescription = null,
+            modifier = Modifier.padding(end = 10.dp).size(30.dp)
+        )
         Text(text = getADayOfTheWeek(
             index = index,
             year = weather.displayDate.year,

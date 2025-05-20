@@ -14,21 +14,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.compose.AppTheme
 import com.example.weatherapp.Screens.MainScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val apiKey = assets.open("apiKey.txt").bufferedReader().use { it.readText() }
-        Log.d("DEBUG", "Error")
-        val factory = WeatherViewModelFactory(apiKey)
-        val viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
-
-
         setContent {
             AppTheme(dynamicColor = false) {
                 Surface(
@@ -42,12 +37,11 @@ class MainActivity : ComponentActivity() {
                         contentColor = Color.Black,
                         modifier = Modifier.systemBarsPadding()
                     ) { innerPadding ->
-                        MainScreen(modifier = Modifier.padding(innerPadding), viewModel = viewModel)
+                        MainScreen(modifier = Modifier.padding(innerPadding), viewModel = hiltViewModel())
                     }
                 }
             }
         }
-
     }
 }
 

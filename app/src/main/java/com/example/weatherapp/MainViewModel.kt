@@ -5,34 +5,46 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.HourlyForecast
-import com.example.weatherapp.data.WeatherCurrent
-import com.example.weatherapp.data.WeatherForAWeek
 import com.example.weatherapp.data.CurrentWeatherData
 import com.example.weatherapp.data.HourlyForecastData
 import com.example.weatherapp.data.WeeklyForecastData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.io.File
+import javax.inject.Inject
 
-class MainViewModel(private val apiKey: String): ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val apiKey: String,
+    private val currentWeatherService: CurrentWeatherApiService,
+    private val weeklyForecastService: WeeklyForecastApiService,
+    private val hourlyForecastService: HourlyForecastApiService
+) : ViewModel() {
     val location = "Wroclaw, Poland"
 
     private val latitude = 51.090071
     private val longitude = 17.035141
 
-    private val _currentWeather = MutableLiveData<CurrentWeatherData>()
-    val currentWeather: LiveData<CurrentWeatherData> = _currentWeather
+    private val _currentWeather = MutableStateFlow<CurrentWeatherData?>(null)
+    val currentWeather: StateFlow<CurrentWeatherData?> = _currentWeather
 
-    private val _weeklyForecast = MutableLiveData<WeeklyForecastData>()
-    val weeklyWeather: LiveData<WeeklyForecastData> = _weeklyForecast
+    private val _weeklyForecast = MutableStateFlow<WeeklyForecastData?>(null)
+    val weeklyWeather: StateFlow<WeeklyForecastData?> = _weeklyForecast
 
-    private val _hourlyForecast = MutableLiveData<HourlyForecastData>()
-    val hourlyForecast: LiveData<HourlyForecastData> = _hourlyForecast
+    private val _hourlyForecast = MutableStateFlow<HourlyForecastData?>(null)
+    val hourlyForecast: StateFlow<HourlyForecastData?> = _hourlyForecast
+
+    init {
+        fetchWeather()
+        fetchWeeklyForecast()
+        fetchHourlyForecast()
+    }
 
     fun fetchWeather() {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.currentWeatherService.getWeather(
+                val response = currentWeatherService.getWeather(
                     apiKey = apiKey,
                     latitude = latitude,
                     longitude = longitude
@@ -48,7 +60,7 @@ class MainViewModel(private val apiKey: String): ViewModel() {
     fun fetchWeeklyForecast() {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.weeklyForecastService.getForecast(
+                val response = weeklyForecastService.getForecast(
                     apiKey = apiKey,
                     latitude = latitude,
                     longitude = longitude,
@@ -64,7 +76,7 @@ class MainViewModel(private val apiKey: String): ViewModel() {
     fun fetchHourlyForecast() {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.hourlyForecast.getForecast(
+                val response = hourlyForecastService.getForecast(
                     apiKey = apiKey,
                     latitude = latitude,
                     longitude = longitude
