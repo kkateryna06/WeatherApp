@@ -29,9 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.compose.AppTheme
 import com.example.weatherapp.MainViewModel
 import coil3.compose.AsyncImage
+import com.example.weatherapp.Screen
 import com.example.weatherapp.ScreenElements.CurrentWeatherInfo
 import com.example.weatherapp.ScreenElements.PagerIndicator
 import com.example.weatherapp.ScreenElements.WeatherByHoursCard
@@ -43,7 +45,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    navController: NavController
 ) {
     val currentWeather by viewModel.currentWeather.collectAsState()
     val weeklyForecast by viewModel.weeklyWeather.collectAsState()
@@ -85,10 +88,12 @@ fun MainScreen(
                 modifier = Modifier.padding(start = 10.dp)
             ) {
                 Text(
-                    text = location,
+                    text = location.value,
                     fontSize = 30.sp
                 )
-                IconButton(onClick = {}) {
+                IconButton(onClick = {
+                    navController.navigate(Screen.ChooseLocationScreen.route)
+                }) {
                     Icon(
                         imageVector = Icons.Default.LocationOn, contentDescription = null,
                         modifier = Modifier.fillMaxSize()

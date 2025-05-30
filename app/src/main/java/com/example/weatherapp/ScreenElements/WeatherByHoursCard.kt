@@ -46,7 +46,7 @@ fun WeatherByHoursItem(item: ForecastHours) {
             modifier = Modifier.size(40.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "${item.temperature.degrees}")
+        Text(text = "${item.temperature.degrees}°")
     }
 }
 

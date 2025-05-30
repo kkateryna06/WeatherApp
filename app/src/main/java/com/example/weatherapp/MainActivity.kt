@@ -15,7 +15,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.compose.AppTheme
+import com.example.weatherapp.Screens.ChooseLocationScreen
 import com.example.weatherapp.Screens.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +39,8 @@ class MainActivity : ComponentActivity() {
                         contentColor = Color.Black,
                         modifier = Modifier.systemBarsPadding()
                     ) { innerPadding ->
-                        MainScreen(modifier = Modifier.padding(innerPadding), viewModel = hiltViewModel())
+                        Navigation()
+//                        MainScreen(modifier = Modifier.padding(innerPadding), viewModel = hiltViewModel())
                     }
                 }
             }
